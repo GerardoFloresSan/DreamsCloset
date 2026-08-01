@@ -27,7 +27,7 @@ function tarjetaHTML(producto) {
     <article class="card-producto reveal is-visible" data-categoria="${producto.category}">
       <div class="card-producto__img">
         <span class="tag-personalizable">${ETIQUETA_TAG[producto.category] || 'Personalizable'}</span>
-        <img src="${producto.images[0]}" alt="${producto.name}" loading="lazy" width="800" height="1000">
+        <img src="${producto.images[0]}" alt="${producto.name}" loading="lazy" width="${producto.imageWidth}" height="${producto.imageHeight}">
       </div>
       <div class="card-producto__body">
         <div class="card-producto__meta">

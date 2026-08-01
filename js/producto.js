@@ -58,7 +58,7 @@ function renderGaleria(producto) {
   return `
     <div class="detalle__galeria">
       <div class="detalle__img-principal">
-        <img src="${producto.images[0]}" alt="${producto.name}" id="imgPrincipal">
+        <img src="${producto.images[0]}" alt="${producto.name}" id="imgPrincipal" width="${producto.imageWidth}" height="${producto.imageHeight}">
       </div>
       ${miniaturas}
     </div>
