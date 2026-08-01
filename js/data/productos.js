@@ -288,7 +288,8 @@ const PRODUCTOS = [
 
 /** URL absoluta compartible de un producto (para WhatsApp, redes, OG). */
 function urlProducto(producto) {
-  return `${window.location.origin}${window.location.pathname.replace(/index\.html$/, '')}producto.html?slug=${producto.slug}`;
+  const carpeta = window.location.pathname.replace(/[^/]*$/, '');
+  return `${window.location.origin}${carpeta}producto.html?slug=${producto.slug}`;
 }
 
 function buscarProductoPorSlug(slug) {

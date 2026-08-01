@@ -6,6 +6,7 @@ const SITE_CONFIG = {
   whatsappNumber: '51918119560', // formato internacional sin '+' ni espacios
   brandName: "Dream's Closet",
   facebookUrl: 'https://www.facebook.com/dreamsclosets',
+  instagramUrl: null, // completar cuando exista cuenta de Instagram — el link se muestra solo si esto tiene valor
   email: 'dreamsclosetcomercial@gmail.com',
 };
 

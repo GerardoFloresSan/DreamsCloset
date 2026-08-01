@@ -11,10 +11,51 @@ nav.querySelectorAll('a').forEach(link => {
   link.addEventListener('click', () => nav.classList.remove('is-open'));
 });
 
-// ---------- Botón "Hacer pedido" (mensaje general centralizado) ----------
+// ---------- Botones de WhatsApp con mensaje centralizado ----------
 const btnHacerPedido = document.getElementById('btnHacerPedido');
 if (btnHacerPedido) {
   btnHacerPedido.href = buildWhatsAppLink(MENSAJE_HACER_PEDIDO);
+}
+
+const btnCotizar = document.getElementById('btnCotizar');
+if (btnCotizar) {
+  btnCotizar.href = buildWhatsAppLink(MENSAJE_COTIZAR_DISEÑO);
+}
+
+const numeroVisible = SITE_CONFIG.whatsappNumber.replace(/^51/, '').replace(/(\d{3})(\d{3})(\d{3})/, '$1 $2 $3');
+
+const contactoWhatsapp = document.getElementById('contactoWhatsapp');
+if (contactoWhatsapp) {
+  contactoWhatsapp.href = buildWhatsAppLink(MENSAJE_HACER_PEDIDO);
+  document.getElementById('contactoWhatsappNumero').textContent = numeroVisible;
+}
+
+const contactoEmail = document.getElementById('contactoEmail');
+if (contactoEmail) {
+  contactoEmail.href = `mailto:${SITE_CONFIG.email}`;
+  document.getElementById('contactoEmailTexto').textContent = SITE_CONFIG.email;
+}
+
+const whatsappFloat = document.getElementById('whatsappFloat');
+if (whatsappFloat) {
+  whatsappFloat.href = buildWhatsAppLink(MENSAJE_HACER_PEDIDO);
+}
+
+['btnFacebookNosotros', 'contactoFacebook', 'footerFacebook'].forEach(id => {
+  const el = document.getElementById(id);
+  if (el) el.href = SITE_CONFIG.facebookUrl;
+});
+
+const footerWhatsapp = document.getElementById('footerWhatsapp');
+if (footerWhatsapp) footerWhatsapp.href = buildWhatsAppLink(MENSAJE_HACER_PEDIDO);
+
+const footerNumero = document.getElementById('footerNumero');
+if (footerNumero) footerNumero.textContent = numeroVisible;
+
+const footerInstagram = document.getElementById('footerInstagram');
+if (footerInstagram && SITE_CONFIG.instagramUrl) {
+  footerInstagram.href = SITE_CONFIG.instagramUrl;
+  footerInstagram.classList.remove('is-oculto');
 }
 
 // ---------- Resaltar sección activa en el nav al hacer scroll ----------
