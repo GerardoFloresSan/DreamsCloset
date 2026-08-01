@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Dream's Closet | Personalización de Prendas Retro</title>
+<meta name="description" content="Dream's Closet - Personalización de prendas de vestir en Lima, Perú. Hoodies retro mundialistas, elegí color y estampado a tu gusto.">
+<link rel="icon" type="image/png" href="assets/images/logo/LogoIcono.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Oswald:wght@400;500;600;700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+  <header class="header" id="header">
+    <div class="container header__inner">
+      <a href="#inicio" class="logo">
+        <img src="assets/images/logo/LogoLockup.png" alt="Dream's Closet">
+      </a>
+      <nav class="nav" id="nav">
+        <a href="#inicio">Inicio</a>
+        <a href="#catalogo">Catálogo</a>
+        <a href="#personalizacion">Personalización</a>
+        <a href="#nosotros">Nosotros</a>
+        <a href="#contacto">Contacto</a>
+      </nav>
+      <a href="#" id="btnHacerPedido" target="_blank" rel="noopener" class="btn btn--whatsapp btn--header">
+        Hacer pedido
+      </a>
+      <button class="nav-toggle" id="navToggle" aria-label="Abrir menú">
+        <span></span><span></span><span></span>
+      </button>
+    </div>
+  </header>
+
+  <section class="hero" id="inicio">
+    <div class="container hero__inner">
+      <div class="hero__text reveal">
+        <span class="badge">Hecho a mano en Lima, Perú</span>
+        <h1>Prendas personalizadas con <em>tu</em> estilo</h1>
+        <p>Bordados y estampados de alta calidad para promociones, familias, equipos y ocasiones especiales.</p>
+        <div class="hero__actions">
+          <a href="#catalogo" class="btn btn--primary">Ver catálogo</a>
+          <a href="#personalizacion" class="btn btn--ghost">Personalizar una prenda</a>
+        </div>
+        <div class="hero__stats">
+          <div><strong>6.9k+</strong><span>seguidores</span></div>
+          <div><strong>Bordado</strong><span>y estampado</span></div>
+          <div><strong>Envíos</strong><span>a todo el Perú</span></div>
+        </div>
+      </div>
+      <div class="hero__image reveal">
+        <img src="assets/images/hero/Principal.JPG" alt="Polo y hoodie personalizados Dream's Closet, colección Lima Perú" loading="eager">
+      </div>
+    </div>
+  </section>
+
+  <section class="catalogo" id="catalogo">
+    <div class="container">
+      <span class="eyebrow reveal">Colección</span>
+      <h2 class="section-title reveal">Nuestro Catálogo</h2>
+      <p class="section-subtitle reveal">Bordado y estampado de alta calidad. Busca o filtra para encontrar tu diseño.</p>
+
+      <div class="catalogo__buscador reveal">
+        <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="7"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+        <input type="search" id="buscadorProductos" placeholder="Busca por prenda, diseño o temática" aria-label="Buscar productos">
+      </div>
+
+      <div class="filtros reveal" id="filtrosCategoria" role="tablist" aria-label="Filtrar catálogo por categoría"></div>
+
+      <p class="catalogo__contador" id="contadorResultados" aria-live="polite"></p>
+
+      <div class="grid-productos" id="gridProductos"></div>
+
+      <div class="catalogo__vacio is-oculto" id="estadoVacio">
+        <p>No encontramos productos con esos filtros. Prueba con otra categoría o consulta un diseño personalizado.</p>
+        <div class="catalogo__vacio-acciones">
+          <button type="button" class="btn btn--ghost" id="btnLimpiarFiltros">Limpiar filtros</button>
+          <a href="#personalizacion" class="btn btn--whatsapp">Cotizar un diseño personalizado</a>
+        </div>
+      </div>
+
+      <div class="catalogo__vermas" id="contenedorVerMas">
+        <button type="button" class="btn btn--ghost" id="btnVerMas">Ver más productos</button>
+      </div>
+
+      <p class="catalogo__nota reveal">¿Tu ciudad no está en la lista? Trabajamos con cualquier departamento del Perú — consultanos.</p>
+    </div>
+  </section>
+
+  <section class="personalizacion" id="personalizacion">
+    <div class="container personalizacion__inner">
+      <div class="personalizacion__media reveal">
+        <img src="assets/images/productos/PolerasDeMundiales.jpg" alt="Mismo diseño en distintos colores - personalización Dream's Closet" loading="lazy">
+      </div>
+      <div class="personalizacion__text reveal">
+        <span class="eyebrow">A tu manera</span>
+        <h2 class="section-title section-title--left">Tu prenda, tus reglas</h2>
+        <p>¿Viste un diseño que te gusta pero en otro color? ¿Querés el estampado de tu equipo favorito en una prenda distinta? En Dream's Closet lo hacemos posible.</p>
+
+        <ul class="pasos">
+          <li>
+            <span class="pasos__num">1</span>
+            <div><strong>Elegí la prenda base</strong><p>Hoodie, polo o el modelo que prefieras.</p></div>
+          </li>
+          <li>
+            <span class="pasos__num">2</span>
+            <div><strong>Elegí el color</strong><p>Cualquier color disponible en taller, a tu gusto.</p></div>
+          </li>
+          <li>
+            <span class="pasos__num">3</span>
+            <div><strong>Elegí el estampado</strong><p>Del catálogo o una idea tuya — la bordamos o estampamos.</p></div>
+          </li>
+        </ul>
+
+        <a href="https://wa.me/51918119560?text=Hola%2C%20quiero%20armar%20un%20pedido%20personalizado%20(color%20%2B%20estampado)" target="_blank" rel="noopener" class="btn btn--whatsapp">Contanos tu idea</a>
+      </div>
+    </div>
+  </section>
+
+  <section class="nosotros" id="nosotros">
+    <div class="container nosotros__inner">
+      <div class="nosotros__media reveal">
+        <img src="assets/images/nosotros/Sentimiento.jpg" alt="Entrega de un pedido Dream's Closet envuelto con cuidado" loading="lazy">
+      </div>
+      <div class="nosotros__text reveal">
+        <span class="eyebrow">Nuestra historia</span>
+        <h2 class="section-title section-title--left">Sobre Nosotros</h2>
+        <p>Dream's Closet nació en Lima, Perú, con el propósito de crear prendas personalizadas con calidad y atención en cada detalle.</p>
+        <p>Nos especializamos en bordados y estampados de alta calidad. Seleccionamos cuidadosamente los materiales, revisamos cada prenda y confirmamos contigo todos los detalles para que recibas un producto tal como lo imaginaste.</p>
+
+        <ul class="confianza">
+          <li>
+            <span class="confianza__num">1</span>
+            <div><strong>Dedicación real</strong><p>Cada prenda se hace con tiempo y cuidado, sin apuros ni atajos.</p></div>
+          </li>
+          <li>
+            <span class="confianza__num">2</span>
+            <div><strong>Comunicación directa</strong><p>Seguís tu pedido de principio a fin, por WhatsApp, con nosotros.</p></div>
+          </li>
+          <li>
+            <span class="confianza__num">3</span>
+            <div><strong>Entrega segura</strong><p>Empacamos con cuidado y coordinamos contigo hasta confirmar que llegó bien.</p></div>
+          </li>
+        </ul>
+
+        <p class="nosotros__seguidores">Más de <strong>6,900 seguidores</strong> confían en nosotros en redes sociales. Sumate a la comunidad.</p>
+        <a href="https://www.facebook.com/dreamsclosets" target="_blank" rel="noopener" class="btn btn--outline">Síguenos en Facebook</a>
+      </div>
+    </div>
+  </section>
+
+  <section class="contacto" id="contacto">
+    <div class="container contacto__inner">
+      <span class="eyebrow reveal">Hablemos</span>
+      <h2 class="section-title reveal">Contáctanos</h2>
+      <p class="section-subtitle reveal">Consultas, pedidos personalizados o dudas — escribinos.</p>
+      <div class="contacto__cards">
+        <a href="https://wa.me/51918119560" target="_blank" rel="noopener" class="contacto__card reveal">
+          <strong>WhatsApp</strong>
+          <span>918 119 560</span>
+        </a>
+        <a href="mailto:dreamsclosetcomercial@gmail.com" class="contacto__card reveal">
+          <strong>Email</strong>
+          <span>dreamsclosetcomercial@gmail.com</span>
+        </a>
+        <a href="https://www.facebook.com/dreamsclosets" target="_blank" rel="noopener" class="contacto__card reveal">
+          <strong>Facebook</strong>
+          <span>@dreamsclosets</span>
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <footer class="footer">
+    <div class="container footer__inner">
+      <img src="assets/images/logo/LogoLockup.png" alt="Dream's Closet" class="footer__logo">
+      <p>&copy; <span id="year"></span> Dream's Closet. Todos los derechos reservados.</p>
+    </div>
+  </footer>
+
+  <a href="https://wa.me/51918119560" target="_blank" rel="noopener" class="whatsapp-float" aria-label="Contactar por WhatsApp">
+    <svg viewBox="0 0 24 24" width="28" height="28" fill="currentColor"><path d="M12.04 2C6.58 2 2.13 6.45 2.13 11.91c0 1.75.46 3.45 1.32 4.95L2.05 22l5.25-1.38c1.45.79 3.08 1.21 4.74 1.21h.01c5.46 0 9.91-4.45 9.91-9.91 0-2.65-1.03-5.14-2.9-7.01A9.876 9.876 0 0012.04 2m0 1.67c2.2 0 4.26.86 5.82 2.42a8.225 8.225 0 012.41 5.82c0 4.54-3.7 8.23-8.24 8.23-1.48 0-2.93-.4-4.2-1.15l-.3-.18-3.12.82.83-3.04-.2-.31a8.188 8.188 0 01-1.26-4.38c.01-4.55 3.7-8.23 8.26-8.23m-4.52 4.7c-.16 0-.43.06-.65.31-.22.25-.86.84-.86 2.04 0 1.2.88 2.36 1 2.53.12.16 1.7 2.6 4.14 3.64.58.25 1.03.4 1.38.51.58.18 1.11.16 1.53.09.47-.07 1.44-.59 1.64-1.16.2-.57.2-1.06.14-1.16-.06-.1-.22-.16-.47-.28-.25-.12-1.44-.71-1.66-.79-.22-.08-.39-.12-.55.12-.16.25-.63.79-.77.95-.14.16-.28.18-.53.06-.25-.12-1.05-.39-2-1.23-.74-.66-1.24-1.47-1.39-1.72-.14-.25-.01-.38.11-.5.11-.11.25-.28.37-.42.12-.14.16-.25.24-.41.08-.16.04-.31-.02-.43-.06-.12-.55-1.34-.76-1.83-.2-.48-.4-.42-.55-.42h-.02"/></svg>
+  </a>
+
+  <script src="js/config.js"></script>
+  <script src="js/data/productos.js"></script>
+  <script src="js/render.js"></script>
+  <script src="js/script.js"></script>
+</body>
+</html>
