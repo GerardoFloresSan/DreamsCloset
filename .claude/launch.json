@@ -1,0 +1,12 @@
+{
+  "version": "0.0.1",
+  "configurations": [
+    {
+      "name": "static-site",
+      "runtimeExecutable": "python",
+      "runtimeArgs": ["_serve.py"],
+      "port": 5173,
+      "autoPort": true
+    }
+  ]
+}

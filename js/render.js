@@ -45,3 +45,19 @@ function tarjetaHTML(producto) {
     </article>
   `;
 }
+
+/** Card fija que cierra el grid del catálogo, invita a cotizar un diseño propio. */
+function ctaCardHTML() {
+  return `
+    <article class="card-producto card-cta">
+      <div class="card-cta__cuerpo">
+        <span class="card-cta__icono">
+          <svg viewBox="0 0 24 24" width="26" height="26" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="7"/><line x1="21" y1="21" x2="16.65" y2="16.65"/><line x1="11" y1="8" x2="11" y2="12"/><circle cx="11" cy="15" r=".5" fill="currentColor"/></svg>
+        </span>
+        <h3>¿No encontraste tu diseño?</h3>
+        <p>Contanos tu idea — color, prenda y estampado — y te la cotizamos por WhatsApp.</p>
+        <a href="${buildWhatsAppLink(MENSAJE_COTIZAR_DISEÑO)}" target="_blank" rel="noopener" class="btn btn--whatsapp btn--sm">${iconoWhatsapp()}Cotizar mi diseño</a>
+      </div>
+    </article>
+  `;
+}

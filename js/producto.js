@@ -106,6 +106,10 @@ function renderDetalle(producto) {
     });
   });
 
+  document.getElementById('imgPrincipal').addEventListener('click', () => {
+    abrirLightbox(document.getElementById('imgPrincipal').src, producto.name);
+  });
+
   renderMigas(producto);
   actualizarMeta(producto, url);
 }
@@ -119,6 +123,30 @@ function renderRelacionados(producto) {
   }
   document.getElementById('gridRelacionados').innerHTML = relacionados.map(tarjetaHTML).join('');
 }
+
+// ---------- Lightbox (zoom de imagen) ----------
+const lightbox = document.getElementById('lightbox');
+const lightboxImg = document.getElementById('lightboxImg');
+
+function abrirLightbox(src, alt) {
+  lightboxImg.src = src;
+  lightboxImg.alt = alt;
+  lightbox.classList.remove('is-oculto');
+  document.body.style.overflow = 'hidden';
+}
+
+function cerrarLightbox() {
+  lightbox.classList.add('is-oculto');
+  document.body.style.overflow = '';
+}
+
+document.getElementById('lightboxCerrar').addEventListener('click', cerrarLightbox);
+lightbox.addEventListener('click', (e) => {
+  if (e.target === lightbox) cerrarLightbox();
+});
+document.addEventListener('keydown', (e) => {
+  if (e.key === 'Escape') cerrarLightbox();
+});
 
 function init() {
   const params = new URLSearchParams(window.location.search);

@@ -101,6 +101,8 @@ function renderFiltros() {
     boton.addEventListener('click', () => {
       estadoCatalogo.categoria = boton.dataset.filtro;
       estadoCatalogo.visibles = TAMANO_PAGINA;
+      filtrosCategoria.querySelectorAll('.filtro').forEach(b => b.classList.remove('is-activo'));
+      boton.classList.add('is-activo');
       renderCatalogo();
     });
   });
@@ -124,8 +126,9 @@ function productosFiltrados() {
 function renderCatalogo() {
   const resultados = productosFiltrados();
   const visibles = resultados.slice(0, estadoCatalogo.visibles);
+  const esUltimaPagina = resultados.length <= estadoCatalogo.visibles;
 
-  gridProductos.innerHTML = visibles.map(tarjetaHTML).join('');
+  gridProductos.innerHTML = visibles.map(tarjetaHTML).join('') + (esUltimaPagina && visibles.length ? ctaCardHTML() : '');
 
   const hayResultados = resultados.length > 0;
   estadoVacio.classList.toggle('is-oculto', hayResultados);
@@ -135,7 +138,7 @@ function renderCatalogo() {
     ? `${resultados.length} ${resultados.length === 1 ? 'producto' : 'productos'}`
     : '';
 
-  contenedorVerMas.classList.toggle('is-oculto', resultados.length <= estadoCatalogo.visibles);
+  contenedorVerMas.classList.toggle('is-oculto', esUltimaPagina);
 }
 
 buscadorInput.addEventListener('input', () => {
