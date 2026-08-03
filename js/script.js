@@ -93,7 +93,10 @@ const estadoCatalogo = {
 };
 
 function renderFiltros() {
-  filtrosCategoria.innerHTML = CATEGORIAS.map(cat => `
+  // Solo se muestran categorías con al menos un producto. Las carpetas de Drive
+  // que todavía no tienen fotos (Equipos de fútbol, Trabajos terminados, Varios)
+  // aparecen solas cuando se les carga el primer producto.
+  filtrosCategoria.innerHTML = categoriasConProductos().map(cat => `
     <button type="button" class="filtro${cat.slug === estadoCatalogo.categoria ? ' is-activo' : ''}" data-filtro="${cat.slug}">${cat.label}</button>
   `).join('');
 

@@ -751,6 +751,43 @@ h1, h2, h3 { font-family: var(--font-display); font-weight: 600; letter-spacing:
 .detalle__specs strong { color: var(--color-text); }
 .detalle__specs span { color: var(--color-text-muted); text-align: right; }
 
+/* ---------- Bloque de precios en la ficha ---------- */
+.detalle__precio-bloque {
+  background: var(--color-cream-soft);
+  border-radius: var(--radius-lg);
+  padding: 22px 24px;
+  margin-bottom: 30px;
+}
+.detalle__precio-titulo {
+  font-family: var(--font-display);
+  font-size: 0.82rem;
+  text-transform: uppercase;
+  letter-spacing: 1.2px;
+  color: var(--color-gold);
+  margin-bottom: 14px;
+}
+.detalle__precios { list-style: none; display: flex; flex-direction: column; gap: 8px; }
+.detalle__precios li {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  gap: 16px;
+  font-size: 0.92rem;
+}
+.detalle__precio-tallas { color: var(--color-text-muted); }
+.detalle__precio-monto {
+  font-family: var(--font-display);
+  font-size: 1.15rem;
+  color: var(--color-text);
+  font-weight: 600;
+}
+.detalle__precio-nota {
+  margin-top: 12px;
+  font-size: 0.82rem;
+  color: var(--color-text-muted);
+  font-style: italic;
+}
+
 .detalle__acciones { display: flex; gap: 14px; flex-wrap: wrap; }
 
 .detalle-vacio { padding: 80px 0; text-align: center; }

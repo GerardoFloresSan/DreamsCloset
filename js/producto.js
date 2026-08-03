@@ -10,13 +10,6 @@ nav.querySelectorAll('a').forEach(link => {
 document.getElementById('btnHacerPedido').href = buildWhatsAppLink(MENSAJE_HACER_PEDIDO);
 document.getElementById('whatsappFloat').href = buildWhatsAppLink(MENSAJE_HACER_PEDIDO);
 
-const GARMENT_LABEL = {
-  hoodie: 'Hoodie',
-  crewneck: 'Crewneck / buzo cuello redondo',
-  polo: 'Polo',
-  gorra: 'Gorra',
-};
-
 function renderMigas(producto) {
   document.getElementById('migas').innerHTML = `
     <a href="index.html#inicio">Inicio</a> /
@@ -41,7 +34,21 @@ function actualizarMeta(producto, url) {
     description: producto.shortDescription,
     image: producto.images.map(src => `${window.location.origin}/${src}`),
     category: producto.category,
+    material: materialProducto(producto),
   };
+
+  const desde = precioDesde(producto);
+  if (desde) {
+    ldJson.offers = {
+      '@type': 'AggregateOffer',
+      priceCurrency: 'PEN',
+      lowPrice: desde,
+      highPrice: Math.max(...tablaPrecios(producto).map((g) => g.precio)),
+      availability: producto.available
+        ? 'https://schema.org/InStock'
+        : 'https://schema.org/OutOfStock',
+    };
+  }
   const script = document.createElement('script');
   script.type = 'application/ld+json';
   script.textContent = JSON.stringify(ldJson);
@@ -65,13 +72,34 @@ function renderGaleria(producto) {
   `;
 }
 
+function renderTablaPrecios(producto) {
+  const grupos = tablaPrecios(producto);
+  if (!grupos.length) {
+    return '<p class="detalle__precio-nota">Consultar precio por WhatsApp.</p>';
+  }
+
+  const filas = grupos
+    .map(
+      (g) => `
+      <li>
+        <span class="detalle__precio-tallas">Talla${g.tallas.length > 1 ? 's' : ''} ${g.tallas.join(', ')}</span>
+        <span class="detalle__precio-monto">S/ ${g.precio}</span>
+      </li>`
+    )
+    .join('');
+
+  const nota = producto.notaPrecio
+    ? `<p class="detalle__precio-nota">${producto.notaPrecio}</p>`
+    : '';
+
+  return `<ul class="detalle__precios">${filas}</ul>${nota}`;
+}
+
 function renderDetalle(producto) {
   const categoriaLabel = CATEGORIAS.find(c => c.slug === producto.category)?.label || '';
-  const precio = producto.priceFrom ? `Desde S/ ${producto.priceFrom}` : producto.priceLabel;
-  const tallas = producto.sizes.length ? producto.sizes.join(', ') : 'Consultar disponibilidad';
   const colores = producto.colors.length ? producto.colors.join(', ') : 'Consultar disponibilidad';
   const url = urlProducto(producto);
-  const mensaje = mensajeConsultaProducto({ name: producto.name, code: producto.code, url });
+  const mensaje = mensajeConsultaProducto(producto, url);
 
   document.getElementById('detalleProducto').innerHTML = `
     <div class="container detalle">
@@ -83,12 +111,16 @@ function renderDetalle(producto) {
         <p class="detalle__desc">${producto.shortDescription}</p>
 
         <ul class="detalle__specs">
-          <li><strong>Tipo de prenda</strong><span>${GARMENT_LABEL[producto.garmentType] || producto.garmentType}</span></li>
-          <li><strong>Personalización</strong><span>${ETIQUETA_PERSONALIZACION[producto.customizationType] || producto.customizationType}</span></li>
-          <li><strong>Tallas</strong><span>${tallas}</span></li>
+          <li><strong>Tipo de prenda</strong><span>${tipoPrendaProducto(producto)}</span></li>
+          <li><strong>Personalización</strong><span>Estampado DTF</span></li>
+          <li><strong>Material</strong><span>${materialProducto(producto)}</span></li>
           <li><strong>Colores</strong><span>${colores}</span></li>
-          <li><strong>Precio</strong><span>${precio}</span></li>
         </ul>
+
+        <div class="detalle__precio-bloque">
+          <h2 class="detalle__precio-titulo">Precios por talla</h2>
+          ${renderTablaPrecios(producto)}
+        </div>
 
         <div class="detalle__acciones">
           <a href="${buildWhatsAppLink(mensaje)}" target="_blank" rel="noopener" class="btn btn--whatsapp">${iconoWhatsapp()}Consultar este diseño</a>

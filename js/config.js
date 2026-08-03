@@ -20,11 +20,40 @@ function buildWhatsAppLink(mensaje) {
 }
 
 /**
- * Mensaje estándar de consulta por un producto puntual.
- * @param {{name: string, code: string, url: string}} producto
+ * Mensaje de consulta por un producto puntual.
+ * Incluye ficha completa (tipo, material, tallas con precio, colores) para que
+ * el cliente llegue al chat sabiendo todo y no haya que reenviar la info.
+ *
+ * @param {object} producto - objeto de PRODUCTOS
+ * @param {string} url - URL compartible del producto
  */
-function mensajeConsultaProducto(producto) {
-  return `Hola, vi el ${producto.name} en la página web de Dream's Closet.\n\nCódigo: ${producto.code}\nProducto: ${producto.name}\nEnlace: ${producto.url}\n\nQuisiera consultar por las tallas, colores disponibles, precio y tiempo de elaboración.`;
+function mensajeConsultaProducto(producto, url) {
+  const lineas = [
+    `Hola, vi el ${producto.name} en la página web de Dream's Closet.`,
+    '',
+    `*Código:* ${producto.code}`,
+    `*Producto:* ${producto.name}`,
+    `*Tipo de prenda:* ${tipoPrendaProducto(producto)}`,
+    `*Material:* ${materialProducto(producto)}`,
+    '*Personalización:* Estampado DTF',
+  ];
+
+  const grupos = tablaPrecios(producto);
+  if (grupos.length) {
+    lineas.push('', '*Precios:*');
+    grupos.forEach((g) => {
+      lineas.push(`• Talla${g.tallas.length > 1 ? 's' : ''} ${g.tallas.join(', ')} → S/ ${g.precio}`);
+    });
+  }
+  if (producto.notaPrecio) {
+    lineas.push(`(${producto.notaPrecio})`);
+  }
+
+  lineas.push('', `*Colores disponibles:* ${producto.colors.join(', ')}`);
+  lineas.push('', `Ver diseño: ${url}`);
+  lineas.push('', 'Quisiera confirmar disponibilidad y tiempo de elaboración.');
+
+  return lineas.join('\n');
 }
 
 const MENSAJE_HACER_PEDIDO = "Hola Dream's Closet, quiero más información sobre sus prendas personalizadas.";

@@ -1,0 +1,14 @@
+{
+  "name": "dreams-closet-web",
+  "version": "1.0.0",
+  "description": "Catálogo digital de Dream's Closet — prendas personalizadas en Lima, Perú",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "serve": "python _serve.py",
+    "sync-drive": "node scripts/sync-drive.mjs"
+  },
+  "dependencies": {
+    "googleapis": "^144.0.0"
+  }
+}

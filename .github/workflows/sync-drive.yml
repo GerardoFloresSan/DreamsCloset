@@ -1,0 +1,61 @@
+# Sincroniza el catálogo desde Google Drive una vez al día.
+#
+# INACTIVO hasta que exista el secret GOOGLE_SERVICE_ACCOUNT_JSON en
+# Settings → Secrets and variables → Actions. Sin ese secret el job se salta
+# solo, no falla.
+#
+# Ver docs/sincronizacion-drive.md para el paso a paso.
+
+name: Sincronizar catálogo desde Drive
+
+on:
+  schedule:
+    - cron: '0 8 * * *' # 03:00 en Perú (UTC-5)
+  workflow_dispatch: # permite ejecutarlo a mano desde la pestaña Actions
+
+jobs:
+  sincronizar:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Verificar que existan las credenciales
+        id: check
+        run: |
+          if [ -z "${{ secrets.GOOGLE_SERVICE_ACCOUNT_JSON }}" ]; then
+            echo "listo=false" >> $GITHUB_OUTPUT
+            echo "Falta el secret GOOGLE_SERVICE_ACCOUNT_JSON — se omite la sincronización."
+          else
+            echo "listo=true" >> $GITHUB_OUTPUT
+          fi
+
+      - uses: actions/setup-node@v4
+        if: steps.check.outputs.listo == 'true'
+        with:
+          node-version: '20'
+
+      - name: Instalar dependencias
+        if: steps.check.outputs.listo == 'true'
+        run: npm install
+
+      - name: Sincronizar desde Drive
+        if: steps.check.outputs.listo == 'true'
+        env:
+          GOOGLE_SERVICE_ACCOUNT_JSON: ${{ secrets.GOOGLE_SERVICE_ACCOUNT_JSON }}
+        run: node scripts/sync-drive.mjs
+
+      - name: Publicar cambios
+        if: steps.check.outputs.listo == 'true'
+        run: |
+          git config user.name "Dream's Closet Bot"
+          git config user.email "actions@github.com"
+          git add assets/images-drive js/data/productos-drive.js
+          if git diff --staged --quiet; then
+            echo "Sin cambios en el catálogo."
+          else
+            git commit -m "Sincronizar catálogo desde Drive"
+            git push
+          fi

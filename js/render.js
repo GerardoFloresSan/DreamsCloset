@@ -3,14 +3,12 @@
  * Usado por index.html (catálogo) y producto.html (relacionados).
  */
 const ETIQUETA_TAG = {
-  mundial: 'Personalizable',
-  peru: 'Elige tu ciudad',
-  reencuentro: 'A tu medida',
-};
-
-const ETIQUETA_PERSONALIZACION = {
-  bordado: 'Bordado',
-  estampado: 'Estampado',
+  mundiales: 'Personalizable',
+  ciudades: 'Elige tu ciudad',
+  'equipos-futbol': 'Tu equipo',
+  reencuentros: 'A tu medida',
+  'trabajos-terminados': 'Trabajo realizado',
+  varios: 'Personalizable',
 };
 
 function iconoWhatsapp() {
@@ -19,9 +17,9 @@ function iconoWhatsapp() {
 
 /** @param {object} producto - objeto de PRODUCTOS */
 function tarjetaHTML(producto) {
-  const precio = producto.priceFrom ? `Desde S/ ${producto.priceFrom}` : producto.priceLabel;
-  const categoriaLabel = CATEGORIAS.find(c => c.slug === producto.category)?.label || '';
-  const mensaje = mensajeConsultaProducto({ name: producto.name, code: producto.code, url: urlProducto(producto) });
+  const categoriaLabel = CATEGORIAS.find((c) => c.slug === producto.category)?.label || '';
+  const url = urlProducto(producto);
+  const mensaje = mensajeConsultaProducto(producto, url);
 
   return `
     <article class="card-producto reveal is-visible" data-categoria="${producto.category}">
@@ -36,7 +34,7 @@ function tarjetaHTML(producto) {
         </div>
         <h3>${producto.name}</h3>
         <p>${producto.shortDescription}</p>
-        <p class="card-producto__detalle">${ETIQUETA_PERSONALIZACION[producto.customizationType] || ''} · ${precio}</p>
+        <p class="card-producto__detalle">Estampado DTF · <strong>${etiquetaPrecio(producto)}</strong></p>
         <div class="card-producto__acciones">
           <a href="producto.html?slug=${producto.slug}" class="btn btn--outline btn--sm">Ver detalles</a>
           <a href="${buildWhatsAppLink(mensaje)}" target="_blank" rel="noopener" class="btn btn--whatsapp btn--sm">${iconoWhatsapp()}Consultar este diseño</a>
