@@ -25,7 +25,12 @@ function tarjetaHTML(producto) {
     <article class="card-producto reveal is-visible" data-categoria="${producto.category}">
       <div class="card-producto__img">
         <span class="tag-personalizable">${ETIQUETA_TAG[producto.category] || 'Personalizable'}</span>
-        <img src="${producto.images[0]}" alt="${producto.name}" loading="lazy" width="${producto.imageWidth}" height="${producto.imageHeight}">
+        <img
+          src="${imagenCard(producto.images[0])}"
+          srcset="${imagenCard(producto.images[0])} 700w, ${producto.images[0]} ${producto.imageWidth}w"
+          sizes="(max-width: 620px) 100vw, (max-width: 960px) 50vw, 33vw"
+          alt="${producto.name}" loading="lazy"
+          width="${producto.imageWidth}" height="${producto.imageHeight}">
       </div>
       <div class="card-producto__body">
         <div class="card-producto__meta">

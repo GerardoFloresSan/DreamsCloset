@@ -134,9 +134,20 @@ h1, h2, h3 { font-family: var(--font-display); font-weight: 600; letter-spacing:
   display: flex;
   align-items: center;
   gap: 12px;
-  flex-shrink: 0;
+  min-width: 0; /* permite que el logo se achique antes de empujar el botón del menú */
 }
-.logo img { height: 44px; width: auto; border-radius: var(--radius); }
+.logo img {
+  height: 44px;
+  width: auto;
+  max-width: 100%;
+  object-fit: contain;
+  object-position: left center;
+  border-radius: var(--radius);
+}
+
+@media (max-width: 420px) {
+  .logo img { height: 38px; }
+}
 
 .nav {
   display: flex;
@@ -750,6 +761,142 @@ h1, h2, h3 { font-family: var(--font-display); font-weight: 600; letter-spacing:
 }
 .detalle__specs strong { color: var(--color-text); }
 .detalle__specs span { color: var(--color-text-muted); text-align: right; }
+
+/* ---------- Tallas ---------- */
+.detalle__bloque-cabecera {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+
+.enlace-boton {
+  background: none;
+  border: none;
+  padding: 0;
+  font-family: var(--font-body);
+  font-size: 0.82rem;
+  color: var(--color-text-muted);
+  text-decoration: underline;
+  text-underline-offset: 3px;
+  cursor: pointer;
+}
+.enlace-boton:hover, .enlace-boton:focus-visible { color: var(--color-gold); }
+
+.tallas-lista { list-style: none; display: flex; flex-wrap: wrap; gap: 8px; }
+.talla-chip {
+  min-width: 46px;
+  padding: 8px 12px;
+  text-align: center;
+  border: 1px solid var(--color-cream-soft);
+  border-radius: var(--radius);
+  background: #fff;
+  font-family: var(--font-display);
+  font-size: 0.85rem;
+  letter-spacing: 0.5px;
+  color: var(--color-text);
+}
+
+/* ---------- Modal genérico ---------- */
+.modal {
+  position: fixed;
+  inset: 0;
+  background: rgba(10, 10, 14, 0.72);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 24px;
+  z-index: 210;
+}
+.modal__caja {
+  background: var(--color-cream);
+  border-radius: var(--radius-lg);
+  padding: 32px 30px;
+  max-width: 440px;
+  width: 100%;
+  max-height: 85vh;
+  overflow-y: auto;
+  position: relative;
+  box-shadow: var(--shadow-hover);
+}
+.modal__cerrar {
+  position: absolute;
+  top: 12px;
+  right: 14px;
+  background: none;
+  border: none;
+  font-size: 1.7rem;
+  line-height: 1;
+  color: var(--color-text-muted);
+  cursor: pointer;
+}
+.modal__cerrar:hover { color: var(--color-text); }
+.modal__titulo {
+  font-family: var(--font-display);
+  text-transform: uppercase;
+  font-size: 1.15rem;
+  margin-bottom: 18px;
+  color: var(--color-text);
+}
+.modal__texto { font-size: 0.84rem; color: var(--color-text-muted); margin-top: 14px; }
+.modal__aviso { font-size: 0.92rem; color: var(--color-text); margin-bottom: 6px; }
+
+.tabla-tallas { width: 100%; border-collapse: collapse; font-size: 0.9rem; }
+.tabla-tallas th, .tabla-tallas td {
+  padding: 10px 8px;
+  border-bottom: 1px solid var(--color-cream-soft);
+  text-align: left;
+}
+.tabla-tallas thead th {
+  font-family: var(--font-display);
+  font-size: 0.75rem;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  color: var(--color-gold);
+}
+.tabla-tallas tbody th { font-family: var(--font-display); color: var(--color-text); }
+.tabla-tallas td { color: var(--color-text-muted); }
+
+/* ---------- Colores disponibles ---------- */
+.detalle__bloque { margin-bottom: 26px; }
+.detalle__bloque-titulo {
+  font-family: var(--font-display);
+  font-size: 0.82rem;
+  text-transform: uppercase;
+  letter-spacing: 1.2px;
+  color: var(--color-gold);
+  margin-bottom: 14px;
+}
+
+.colores-lista {
+  list-style: none;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px 16px;
+}
+.color-chip {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  font-size: 0.82rem;
+  color: var(--color-text-muted);
+}
+.color-chip__muestra {
+  width: 22px;
+  height: 22px;
+  border-radius: 50%;
+  border: 1px solid rgba(0, 0, 0, 0.18);
+  box-shadow: inset 0 -2px 4px rgba(0, 0, 0, 0.12);
+  flex-shrink: 0;
+}
+.detalle__colores-nota,
+.detalle__colores-vacio {
+  margin-top: 12px;
+  font-size: 0.78rem;
+  color: var(--color-text-muted);
+  font-style: italic;
+}
 
 /* ---------- Bloque de precios en la ficha ---------- */
 .detalle__precio-bloque {

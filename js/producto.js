@@ -95,9 +95,30 @@ function renderTablaPrecios(producto) {
   return `<ul class="detalle__precios">${filas}</ul>${nota}`;
 }
 
+function renderColores(producto) {
+  const colores = coloresProducto(producto);
+  if (!colores.length) {
+    return '<p class="detalle__colores-vacio">Consultar disponibilidad por WhatsApp.</p>';
+  }
+
+  const chips = colores
+    .map(
+      (c) => `
+      <li class="color-chip">
+        <span class="color-chip__muestra" style="background:${c.hex}"></span>
+        <span class="color-chip__nombre">${c.nombre}</span>
+      </li>`
+    )
+    .join('');
+
+  return `
+    <ul class="colores-lista">${chips}</ul>
+    <p class="detalle__colores-nota">El tono real puede variar ligeramente según el lote de tela.</p>
+  `;
+}
+
 function renderDetalle(producto) {
   const categoriaLabel = CATEGORIAS.find(c => c.slug === producto.category)?.label || '';
-  const colores = producto.colors.length ? producto.colors.join(', ') : 'Consultar disponibilidad';
   const url = urlProducto(producto);
   const mensaje = mensajeConsultaProducto(producto, url);
 
@@ -114,8 +135,22 @@ function renderDetalle(producto) {
           <li><strong>Tipo de prenda</strong><span>${tipoPrendaProducto(producto)}</span></li>
           <li><strong>Personalización</strong><span>Estampado DTF</span></li>
           <li><strong>Material</strong><span>${materialProducto(producto)}</span></li>
-          <li><strong>Colores</strong><span>${colores}</span></li>
         </ul>
+
+        <div class="detalle__bloque">
+          <div class="detalle__bloque-cabecera">
+            <h2 class="detalle__bloque-titulo">Tallas disponibles</h2>
+            <button type="button" class="enlace-boton" id="btnGuiaTallas">Ver guía de tallas</button>
+          </div>
+          <ul class="tallas-lista">
+            ${producto.sizes.map((t) => `<li class="talla-chip">${t}</li>`).join('')}
+          </ul>
+        </div>
+
+        <div class="detalle__bloque">
+          <h2 class="detalle__bloque-titulo">Colores disponibles</h2>
+          ${renderColores(producto)}
+        </div>
 
         <div class="detalle__precio-bloque">
           <h2 class="detalle__precio-titulo">Precios por talla</h2>
@@ -142,6 +177,10 @@ function renderDetalle(producto) {
     abrirLightbox(document.getElementById('imgPrincipal').src, producto.name);
   });
 
+  document.getElementById('btnGuiaTallas').addEventListener('click', () => {
+    abrirGuiaTallas(producto);
+  });
+
   renderMigas(producto);
   actualizarMeta(producto, url);
 }
@@ -155,6 +194,58 @@ function renderRelacionados(producto) {
   }
   document.getElementById('gridRelacionados').innerHTML = relacionados.map(tarjetaHTML).join('');
 }
+
+// ---------- Guía de tallas ----------
+const modalTallas = document.getElementById('modalTallas');
+const contenidoTallas = document.getElementById('contenidoTallas');
+
+function tablaTallasHTML(producto) {
+  const medidas = GUIA_TALLAS[producto.garmentFamily];
+
+  // Sin medidas cargadas no se inventa nada: se deriva la consulta a WhatsApp.
+  if (!hayGuiaTallas(producto.garmentFamily)) {
+    const mensaje = `Hola, quiero consultar por las medidas de las tallas del ${producto.name} (${producto.code}).`;
+    return `
+      <p class="modal__aviso">Todavía no publicamos la tabla de medidas de esta prenda.</p>
+      <p class="modal__texto">Escribinos y te decimos exactamente qué talla te corresponde.</p>
+      <a href="${buildWhatsAppLink(mensaje)}" target="_blank" rel="noopener" class="btn btn--whatsapp">${iconoWhatsapp()}Consultar mi talla</a>
+    `;
+  }
+
+  const filas = producto.sizes
+    .filter((t) => medidas[t])
+    .map(
+      (t) => `<tr><th scope="row">${t}</th><td>${medidas[t].pecho} cm</td><td>${medidas[t].largo} cm</td></tr>`
+    )
+    .join('');
+
+  return `
+    <table class="tabla-tallas">
+      <thead>
+        <tr><th scope="col">Talla</th><th scope="col">Pecho</th><th scope="col">Largo</th></tr>
+      </thead>
+      <tbody>${filas}</tbody>
+    </table>
+    <p class="modal__texto">Medidas tomadas sobre la prenda en plano. El pecho se mide de axila a axila.</p>
+  `;
+}
+
+function abrirGuiaTallas(producto) {
+  contenidoTallas.innerHTML = tablaTallasHTML(producto);
+  modalTallas.classList.remove('is-oculto');
+  document.body.style.overflow = 'hidden';
+  document.getElementById('tallasCerrar').focus();
+}
+
+function cerrarGuiaTallas() {
+  modalTallas.classList.add('is-oculto');
+  document.body.style.overflow = '';
+}
+
+document.getElementById('tallasCerrar').addEventListener('click', cerrarGuiaTallas);
+modalTallas.addEventListener('click', (e) => {
+  if (e.target === modalTallas) cerrarGuiaTallas();
+});
 
 // ---------- Lightbox (zoom de imagen) ----------
 const lightbox = document.getElementById('lightbox');
@@ -177,7 +268,9 @@ lightbox.addEventListener('click', (e) => {
   if (e.target === lightbox) cerrarLightbox();
 });
 document.addEventListener('keydown', (e) => {
-  if (e.key === 'Escape') cerrarLightbox();
+  if (e.key !== 'Escape') return;
+  cerrarLightbox();
+  cerrarGuiaTallas();
 });
 
 function init() {

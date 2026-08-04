@@ -43,14 +43,57 @@ const TIPO_PRENDA = {
   polo: 'Polo de algodón',
 };
 
-/** Colores básicos disponibles (stock del taller). */
-const COLORES_BASICOS = [
-  'Blanco', 'Negro', 'Plomo', 'Celeste', 'Rojo', 'Naranja',
-  'Guinda', 'Melange', 'Verde Perico', 'Verde Militar', 'Azul Acero',
+/**
+ * Colores básicos disponibles (stock del taller).
+ * El `hex` es una referencia visual aproximada para los cuadraditos de la ficha;
+ * el tono real de la tela puede variar un poco según el lote.
+ */
+const PALETA = [
+  { nombre: 'Blanco', hex: '#F7F5F0' },
+  { nombre: 'Negro', hex: '#1C1C1C' },
+  { nombre: 'Plomo', hex: '#8C8C8C' },
+  { nombre: 'Melange', hex: '#B4B2AC' },
+  { nombre: 'Celeste', hex: '#A5D3EC' },
+  { nombre: 'Azul Acero', hex: '#3E5A73' },
+  { nombre: 'Rojo', hex: '#C8102E' },
+  { nombre: 'Guinda', hex: '#6E1423' },
+  { nombre: 'Naranja', hex: '#F26522' },
+  { nombre: 'Verde Perico', hex: '#3FA34D' },
+  { nombre: 'Verde Militar', hex: '#4B5320' },
 ];
+
+const COLORES_BASICOS = PALETA.map((c) => c.nombre);
 
 const TALLAS_POLERA = ['S', 'M', 'L', 'XL', 'XXL', 'XXXL'];
 const TALLAS_POLO = ['S', 'M', 'L', 'XL', 'XXL'];
+
+/**
+ * Medidas de cada talla, en centímetros, tomadas sobre la prenda apoyada en plano.
+ *
+ * ⚠️ PENDIENTE: faltan las medidas reales del taller. Mientras estos objetos
+ * estén vacíos, la web muestra un aviso invitando a consultar por WhatsApp
+ * en vez de mostrar números inventados.
+ *
+ * Para completarlo, medir una prenda de cada talla y cargar así:
+ *
+ *   polera: {
+ *     S:   { pecho: 52, largo: 68 },
+ *     M:   { pecho: 55, largo: 70 },
+ *     ...
+ *   }
+ *
+ *   pecho = ancho de axila a axila (prenda cerrada, en plano)
+ *   largo = del hombro al ruedo inferior
+ */
+const GUIA_TALLAS = {
+  polera: {},
+  polo: {},
+};
+
+/** true si ya se cargaron las medidas de esa familia de prenda. */
+function hayGuiaTallas(familia) {
+  return Object.keys(GUIA_TALLAS[familia] || {}).length > 0;
+}
 
 const PRODUCTOS = [
   {
@@ -373,6 +416,21 @@ function precioDesde(producto) {
 function etiquetaPrecio(producto) {
   const desde = precioDesde(producto);
   return desde ? `Desde S/ ${desde}` : 'Consultar precio';
+}
+
+/** Datos de color (nombre + hex) de un producto, para dibujar los cuadraditos. */
+function coloresProducto(producto) {
+  return producto.colors
+    .map((nombre) => PALETA.find((c) => c.nombre === nombre))
+    .filter(Boolean);
+}
+
+/**
+ * Ruta de la versión reducida de una imagen, la que usan las tarjetas del catálogo.
+ * Las genera scripts/generar-miniaturas.py con el sufijo "-card".
+ */
+function imagenCard(ruta) {
+  return ruta.replace(/(\.[^.]+)$/, '-card$1');
 }
 
 /** URL absoluta compartible de un producto (para WhatsApp, redes, OG). */
