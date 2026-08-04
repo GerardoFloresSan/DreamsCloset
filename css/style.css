@@ -621,6 +621,72 @@ h1, h2, h3 { font-family: var(--font-display); font-weight: 600; letter-spacing:
   .confianza li { text-align: left; }
 }
 
+/* ---------- Envíos ---------- */
+.envios { padding: 100px 0; background: var(--color-cream-soft); }
+.envios .eyebrow, .envios .section-title, .envios .section-subtitle { text-align: center; }
+
+.envios__grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 26px;
+  max-width: 860px;
+  margin: 0 auto;
+}
+
+.envio-card {
+  background: #fff;
+  border-radius: var(--radius-lg);
+  padding: 32px 28px;
+  box-shadow: var(--shadow);
+}
+.envio-card__icono {
+  width: 52px;
+  height: 52px;
+  border-radius: 50%;
+  background: var(--color-ink);
+  color: var(--color-gold-light);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 16px;
+}
+.envio-card h3 {
+  font-size: 1.05rem;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  color: var(--color-text);
+  margin-bottom: 12px;
+}
+.envio-card ul { list-style: none; display: flex; flex-direction: column; gap: 8px; }
+.envio-card li {
+  position: relative;
+  padding-left: 18px;
+  font-size: 0.9rem;
+  color: var(--color-text-muted);
+}
+.envio-card li::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 9px;
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: var(--color-gold);
+}
+.envio-card strong { color: var(--color-text); }
+
+.envios__nota {
+  text-align: center;
+  margin-top: 32px;
+  font-size: 0.9rem;
+  color: var(--color-text-muted);
+}
+
+@media (max-width: 700px) {
+  .envios__grid { grid-template-columns: 1fr; }
+}
+
 /* ---------- Contacto ---------- */
 .contacto { padding: 100px 0; }
 .contacto__cards {

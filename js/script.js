@@ -59,7 +59,7 @@ if (footerInstagram && SITE_CONFIG.instagramUrl) {
 }
 
 // ---------- Resaltar sección activa en el nav al hacer scroll ----------
-const seccionesNav = ['inicio', 'catalogo', 'personalizacion', 'nosotros', 'contacto']
+const seccionesNav = ['inicio', 'catalogo', 'personalizacion', 'envios', 'nosotros', 'contacto']
   .map(id => document.getElementById(id))
   .filter(Boolean);
 
