@@ -95,211 +95,11 @@ function hayGuiaTallas(familia) {
   return Object.keys(GUIA_TALLAS[familia] || {}).length > 0;
 }
 
-const PRODUCTOS = [
-  {
-    code: 'DC-001',
-    slug: 'hoodie-argentina',
-    name: 'Hoodie Argentina',
-    shortDescription: 'Diseño retro celeste y blanco, estampado estilo vintage.',
-    category: 'mundiales',
-    garmentType: 'hoodie',
-    garmentFamily: 'polera',
-    sizes: TALLAS_POLERA,
-    colors: COLORES_BASICOS,
-    images: ['assets/images-optimizadas/productos/argentinaPolo.webp'],
-    imageWidth: 1100,
-    imageHeight: 880,
-    tags: ['argentina', 'mundial', 'retro', 'futbol', 'celeste'],
-    featured: true,
-    available: true,
-  },
-  {
-    code: 'DC-002',
-    slug: 'hoodie-espana-82',
-    name: 'Hoodie España 82',
-    shortDescription: 'Homenaje al mundial 82, rojo intenso con mascota Naranjito.',
-    category: 'mundiales',
-    garmentType: 'hoodie',
-    garmentFamily: 'polera',
-    sizes: TALLAS_POLERA,
-    colors: COLORES_BASICOS,
-    images: ['assets/images-optimizadas/productos/EspañaPolo.webp'],
-    imageWidth: 1100,
-    imageHeight: 942,
-    tags: ['españa', 'mundial 82', 'retro', 'futbol', 'naranjito'],
-    featured: true,
-    available: true,
-  },
-  {
-    code: 'DC-003',
-    slug: 'hoodie-francia-98',
-    name: 'Hoodie Francia 98',
-    shortDescription: 'Blanco clásico, emblema mundialista estampado en pecho.',
-    category: 'mundiales',
-    garmentType: 'hoodie',
-    garmentFamily: 'polera',
-    sizes: TALLAS_POLERA,
-    colors: COLORES_BASICOS,
-    images: ['assets/images-optimizadas/productos/FranciaPolo.webp'],
-    imageWidth: 1100,
-    imageHeight: 944,
-    tags: ['francia', 'mundial 98', 'retro', 'futbol'],
-    featured: false,
-    available: true,
-  },
-  {
-    code: 'DC-004',
-    slug: 'hoodie-italia-90',
-    name: "Hoodie Italia '90",
-    shortDescription: 'Azul intenso, ícono tricolor estampado, corte unisex.',
-    category: 'mundiales',
-    garmentType: 'hoodie',
-    garmentFamily: 'polera',
-    sizes: TALLAS_POLERA,
-    colors: COLORES_BASICOS,
-    images: ['assets/images-optimizadas/productos/Italia90.webp'],
-    imageWidth: 1100,
-    imageHeight: 923,
-    tags: ['italia', 'mundial 90', 'retro', 'futbol', 'unisex'],
-    featured: false,
-    available: true,
-  },
-  {
-    code: 'DC-005',
-    slug: 'hoodie-mexico-86',
-    name: 'Hoodie México 86',
-    shortDescription: 'Clásico mundialista, blanco con detalles verde y rojo.',
-    category: 'mundiales',
-    garmentType: 'hoodie',
-    garmentFamily: 'polera',
-    sizes: TALLAS_POLERA,
-    colors: COLORES_BASICOS,
-    images: ['assets/images-optimizadas/productos/mexicoPolo.webp'],
-    imageWidth: 1100,
-    imageHeight: 950,
-    tags: ['mexico', 'mundial 86', 'retro', 'futbol'],
-    featured: false,
-    available: true,
-  },
-  {
-    code: 'DC-006',
-    slug: 'hoodie-peruano',
-    name: 'Hoodie Peruano',
-    shortDescription: 'El clásico de la colección Orgullo Peruano. Versión hombre y mujer.',
-    category: 'ciudades',
-    garmentType: 'hoodie',
-    garmentFamily: 'polera',
-    sizes: TALLAS_POLERA,
-    colors: COLORES_BASICOS,
-    images: ['assets/images-optimizadas/productos/Departamentos/PoleraDePeruano.webp'],
-    imageWidth: 733,
-    imageHeight: 1100,
-    tags: ['peru', 'peruano', 'orgullo peruano', 'gentilicio'],
-    featured: true,
-    available: true,
-  },
-  {
-    code: 'DC-007',
-    slug: 'hoodie-arequipeno-cusquena',
-    name: 'Arequipeño / Cusqueña',
-    shortDescription: 'Vino tinto con letras doradas. Gentilicio a tu elección.',
-    category: 'ciudades',
-    garmentType: 'hoodie',
-    garmentFamily: 'polera',
-    sizes: TALLAS_POLERA,
-    colors: COLORES_BASICOS,
-    images: ['assets/images-optimizadas/productos/Departamentos/PoleraDeArequipeñp.webp'],
-    imageWidth: 733,
-    imageHeight: 1100,
-    tags: ['arequipa', 'cusco', 'gentilicio', 'orgullo peruano'],
-    featured: true,
-    available: true,
-  },
-  {
-    code: 'DC-008',
-    slug: 'hoodie-chalaco-chalaca',
-    name: 'Chalaco / Chalaca',
-    shortDescription: 'Rosa suave, letras en contraste. Callao con orgullo.',
-    category: 'ciudades',
-    garmentType: 'hoodie',
-    garmentFamily: 'polera',
-    sizes: TALLAS_POLERA,
-    colors: COLORES_BASICOS,
-    images: ['assets/images-optimizadas/productos/Departamentos/PoleraDeChalaco.webp'],
-    imageWidth: 733,
-    imageHeight: 1100,
-    tags: ['callao', 'chalaco', 'gentilicio', 'orgullo peruano'],
-    featured: false,
-    available: true,
-  },
-  {
-    code: 'DC-009',
-    slug: 'hoodie-chiclayano',
-    name: 'Chiclayano',
-    shortDescription: 'Celeste cielo con estampado negro. Unisex.',
-    category: 'ciudades',
-    garmentType: 'hoodie',
-    garmentFamily: 'polera',
-    sizes: TALLAS_POLERA,
-    colors: COLORES_BASICOS,
-    images: ['assets/images-optimizadas/productos/Departamentos/PoleraDeChiclayano.webp'],
-    imageWidth: 733,
-    imageHeight: 1100,
-    tags: ['chiclayo', 'chiclayano', 'gentilicio', 'orgullo peruano'],
-    featured: false,
-    available: true,
-  },
-  {
-    code: 'DC-010',
-    slug: 'hoodie-piurano-piurana',
-    name: 'Piurano / Piurana',
-    shortDescription: 'Naranja vibrante, estampado negro. Calor norteño.',
-    category: 'ciudades',
-    garmentType: 'hoodie',
-    garmentFamily: 'polera',
-    sizes: TALLAS_POLERA,
-    colors: COLORES_BASICOS,
-    images: ['assets/images-optimizadas/productos/Departamentos/PoleraDePiurano.webp'],
-    imageWidth: 733,
-    imageHeight: 1100,
-    tags: ['piura', 'piurano', 'gentilicio', 'orgullo peruano'],
-    featured: false,
-    available: true,
-  },
-  {
-    code: 'DC-011',
-    slug: 'hoodie-tarapotino-tarapotina',
-    name: 'Tarapotino / Tarapotina',
-    shortDescription: 'Verde selva, letras claras. Orgullo de la Amazonía.',
-    category: 'ciudades',
-    garmentType: 'hoodie',
-    garmentFamily: 'polera',
-    sizes: TALLAS_POLERA,
-    colors: COLORES_BASICOS,
-    images: ['assets/images-optimizadas/productos/Departamentos/PoleraDeTarapotino.webp'],
-    imageWidth: 1024,
-    imageHeight: 1024,
-    tags: ['tarapoto', 'tarapotino', 'selva', 'gentilicio', 'orgullo peruano'],
-    featured: false,
-    available: true,
-  },
-  {
-    code: 'DC-012',
-    slug: 'hoodie-trujillano-trujillana',
-    name: 'Trujillano / Trujillana',
-    shortDescription: 'Amarillo intenso, estampado negro. Capital de la primavera.',
-    category: 'ciudades',
-    garmentType: 'hoodie',
-    garmentFamily: 'polera',
-    sizes: TALLAS_POLERA,
-    colors: COLORES_BASICOS,
-    images: ['assets/images-optimizadas/productos/Departamentos/PoleraDeTrujillano.webp'],
-    imageWidth: 733,
-    imageHeight: 1100,
-    tags: ['trujillo', 'trujillano', 'gentilicio', 'orgullo peruano'],
-    featured: false,
-    available: true,
-  },
+/**
+ * Productos cargados a mano. Los del catálogo grande (ciudades, mundiales,
+ * equipos) vienen de productos-catalogo.js, que genera el script de importación.
+ */
+const PRODUCTOS_MANUALES = [
   {
     code: 'DC-013',
     slug: 'promocion-reencuentro',
@@ -372,6 +172,45 @@ const PRODUCTOS = [
     available: true,
     notaPrecio: 'Consultar descuento por cantidad',
   },
+];
+
+/**
+ * Descripción por defecto según la categoría, para los productos importados
+ * desde Drive (una foto no trae texto adentro).
+ */
+function descripcionPorCategoria(producto) {
+  switch (producto.category) {
+    case 'ciudades':
+      return `Polera con capucha estampada con el diseño de ${producto.name}. Elige color y talla.`;
+    case 'mundiales':
+      return `Diseño retro del mundial ${producto.name}, en versión hombre y mujer.`;
+    case 'equipos-futbol':
+      return `Polera con capucha con el diseño de ${producto.name}. Elige color y talla.`;
+    default:
+      return `${producto.name} — estampado DTF, personalizable en color y talla.`;
+  }
+}
+
+/** Completa un producto importado con los campos comunes a todo el catálogo. */
+function completarProducto(producto) {
+  return {
+    garmentType: 'hoodie',
+    garmentFamily: 'polera',
+    sizes: TALLAS_POLERA,
+    colors: COLORES_BASICOS,
+    shortDescription: descripcionPorCategoria(producto),
+    tags: [producto.name.toLowerCase(), producto.category, 'estampado', 'personalizado'],
+    featured: false,
+    available: true,
+    ...producto,
+  };
+}
+
+// Los importados van primero: son las fotos más nuevas y las que mejor
+// representan la marca, así son las que se ven al entrar sin filtrar.
+const PRODUCTOS = [
+  ...(typeof PRODUCTOS_CATALOGO !== 'undefined' ? PRODUCTOS_CATALOGO.map(completarProducto) : []),
+  ...PRODUCTOS_MANUALES,
 ];
 
 // ---------- Derivados (no editar a mano) ----------
