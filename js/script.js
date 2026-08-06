@@ -11,15 +11,21 @@ nav.querySelectorAll('a').forEach(link => {
   link.addEventListener('click', () => nav.classList.remove('is-open'));
 });
 
+function captureEvent(event, properties) {
+  window.posthog?.capture(event, properties);
+}
+
 // ---------- Botones de WhatsApp con mensaje centralizado ----------
 const btnHacerPedido = document.getElementById('btnHacerPedido');
 if (btnHacerPedido) {
   btnHacerPedido.href = buildWhatsAppLink(MENSAJE_HACER_PEDIDO);
+  btnHacerPedido.addEventListener('click', () => captureEvent('whatsapp_inquiry_started', { source: 'header_order' }));
 }
 
 const btnCotizar = document.getElementById('btnCotizar');
 if (btnCotizar) {
   btnCotizar.href = buildWhatsAppLink(MENSAJE_COTIZAR_DISEÑO);
+  btnCotizar.addEventListener('click', () => captureEvent('custom_design_quote_started', { source: 'custom_design_section' }));
 }
 
 const numeroVisible = SITE_CONFIG.whatsappNumber.replace(/^51/, '').replace(/(\d{3})(\d{3})(\d{3})/, '$1 $2 $3');
@@ -27,6 +33,7 @@ const numeroVisible = SITE_CONFIG.whatsappNumber.replace(/^51/, '').replace(/(\d
 const contactoWhatsapp = document.getElementById('contactoWhatsapp');
 if (contactoWhatsapp) {
   contactoWhatsapp.href = buildWhatsAppLink(MENSAJE_HACER_PEDIDO);
+  contactoWhatsapp.addEventListener('click', () => captureEvent('whatsapp_inquiry_started', { source: 'contact_section' }));
   document.getElementById('contactoWhatsappNumero').textContent = numeroVisible;
 }
 
@@ -39,15 +46,21 @@ if (contactoEmail) {
 const whatsappFloat = document.getElementById('whatsappFloat');
 if (whatsappFloat) {
   whatsappFloat.href = buildWhatsAppLink(MENSAJE_HACER_PEDIDO);
+  whatsappFloat.addEventListener('click', () => captureEvent('whatsapp_inquiry_started', { source: 'floating_button' }));
 }
 
 ['btnFacebookNosotros', 'contactoFacebook', 'footerFacebook'].forEach(id => {
   const el = document.getElementById(id);
-  if (el) el.href = SITE_CONFIG.facebookUrl;
+  if (!el) return;
+  el.href = SITE_CONFIG.facebookUrl;
+  el.addEventListener('click', () => captureEvent('social_profile_opened', { platform: 'facebook', source: id }));
 });
 
 const footerWhatsapp = document.getElementById('footerWhatsapp');
-if (footerWhatsapp) footerWhatsapp.href = buildWhatsAppLink(MENSAJE_HACER_PEDIDO);
+if (footerWhatsapp) {
+  footerWhatsapp.href = buildWhatsAppLink(MENSAJE_HACER_PEDIDO);
+  footerWhatsapp.addEventListener('click', () => captureEvent('whatsapp_inquiry_started', { source: 'footer' }));
+}
 
 const footerNumero = document.getElementById('footerNumero');
 if (footerNumero) footerNumero.textContent = numeroVisible;
@@ -58,6 +71,7 @@ if (footerNumero) footerNumero.textContent = numeroVisible;
   if (el && SITE_CONFIG.instagramUrl) {
     el.href = SITE_CONFIG.instagramUrl;
     el.classList.remove('is-oculto');
+    el.addEventListener('click', () => captureEvent('social_profile_opened', { platform: 'instagram', source: id }));
   }
 });
 
@@ -109,6 +123,7 @@ function renderFiltros() {
       estadoCatalogo.visibles = TAMANO_PAGINA;
       filtrosCategoria.querySelectorAll('.filtro').forEach(b => b.classList.remove('is-activo'));
       boton.classList.add('is-activo');
+      captureEvent('catalog_category_filtered', { category: estadoCatalogo.categoria });
       renderCatalogo();
     });
   });
@@ -153,8 +168,15 @@ buscadorInput.addEventListener('input', () => {
   renderCatalogo();
 });
 
+buscadorInput.addEventListener('change', () => {
+  if (estadoCatalogo.busqueda) {
+    captureEvent('catalog_search_performed', { query_length: estadoCatalogo.busqueda.length });
+  }
+});
+
 btnVerMas.addEventListener('click', () => {
   estadoCatalogo.visibles += TAMANO_PAGINA;
+  captureEvent('catalog_more_products_requested', { visible_products: estadoCatalogo.visibles });
   renderCatalogo();
 });
 
