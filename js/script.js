@@ -52,11 +52,14 @@ if (footerWhatsapp) footerWhatsapp.href = buildWhatsAppLink(MENSAJE_HACER_PEDIDO
 const footerNumero = document.getElementById('footerNumero');
 if (footerNumero) footerNumero.textContent = numeroVisible;
 
-const footerInstagram = document.getElementById('footerInstagram');
-if (footerInstagram && SITE_CONFIG.instagramUrl) {
-  footerInstagram.href = SITE_CONFIG.instagramUrl;
-  footerInstagram.classList.remove('is-oculto');
-}
+// Los enlaces a Instagram sólo se muestran si hay cuenta cargada en config.
+['footerInstagram', 'contactoInstagram'].forEach((id) => {
+  const el = document.getElementById(id);
+  if (el && SITE_CONFIG.instagramUrl) {
+    el.href = SITE_CONFIG.instagramUrl;
+    el.classList.remove('is-oculto');
+  }
+});
 
 // ---------- Resaltar sección activa en el nav al hacer scroll ----------
 const seccionesNav = ['inicio', 'catalogo', 'personalizacion', 'envios', 'nosotros', 'contacto']

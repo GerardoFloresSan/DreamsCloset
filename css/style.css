@@ -691,9 +691,10 @@ h1, h2, h3 { font-family: var(--font-display); font-weight: 600; letter-spacing:
 .contacto { padding: 100px 0; }
 .contacto__cards {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
-  gap: 22px;
-  max-width: 900px;
+  /* 210px es lo justo para que los cuatro canales entren en una sola fila. */
+  grid-template-columns: repeat(auto-fit, minmax(210px, 1fr));
+  gap: 20px;
+  max-width: 1000px;
   margin: 0 auto;
 }
 .contacto__card {
@@ -737,6 +738,11 @@ h1, h2, h3 { font-family: var(--font-display); font-weight: 600; letter-spacing:
 
 .contacto__card--facebook .contacto__icono { background: #1877f2; }
 .contacto__card--facebook:hover { border-color: #1877f2; }
+
+.contacto__card--instagram .contacto__icono {
+  background: linear-gradient(45deg, #f9ce34 0%, #ee2a7b 50%, #6228d7 100%);
+}
+.contacto__card--instagram:hover { border-color: #ee2a7b; }
 
 /* ---------- Migas de pan ---------- */
 .migas {
