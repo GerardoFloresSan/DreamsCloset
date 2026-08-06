@@ -22,6 +22,20 @@ Cada `whatsapp_click` incluye:
 - `url`
 - `title`
 
+Todos los eventos incluyen contexto tecnico del dispositivo:
+
+- `device_type`: `desktop`, `mobile` o `tablet`.
+- `browser`
+- `browser_version`
+- `os`
+- `os_version`
+- `screen_width` y `screen_height`
+- `viewport_width` y `viewport_height`
+- `device_pixel_ratio`
+- `user_agent`
+- `device_model`, cuando el navegador lo permite.
+- `user_agent_brands`, cuando el navegador lo permite.
+
 ## Codigo de WhatsApp
 
 Cada mensaje de WhatsApp agrega una linea asi:
@@ -41,17 +55,23 @@ Sin un servidor propio no hay correlativo global perfecto para todos los
 visitantes. Este formato mantiene los codigos ordenables y faciles de ubicar en
 el dashboard.
 
-## Activar PostHog
+## Activar PostHog en Cloudflare Pages
 
 1. Crear un proyecto en PostHog.
 2. Copiar la `Project API Key`.
-3. Pegarla en `js/config.js`:
+3. En Cloudflare Pages, abrir el proyecto y entrar a `Settings` -> `Environment variables`.
+4. Crear estas variables:
 
-```javascript
-posthogProjectKey: 'phc_xxxxxxxxxxxxxxxxx',
+```text
+POSTHOG_PROJECT_TOKEN=phc_xxxxxxxxxxxxxxxxx
+POSTHOG_HOST=https://us.i.posthog.com
 ```
 
-4. Publicar la web.
+5. Publicar la web nuevamente.
+
+La web carga `/posthog-config.js`, que Cloudflare genera desde
+`functions/posthog-config.js`. Asi el token no queda escrito dentro de
+`js/config.js`.
 
 ## Dashboard recomendado
 
@@ -64,6 +84,10 @@ Crear un dashboard con estos bloques:
 - Conversion simple: funnel `page_view` -> `product_view` -> `whatsapp_click`.
 - Busquedas frecuentes: evento `catalog_search`, breakdown por `query`.
 - Canales sociales: evento `social_click`, breakdown por `network`.
+- Dispositivos: cualquier evento, breakdown por `device_type`.
+- Navegadores: cualquier evento, breakdown por `browser`.
+- Sistemas operativos: cualquier evento, breakdown por `os`.
+- Modelos detectados: cualquier evento, breakdown por `device_model`.
 
 ## Como usar el codigo
 
