@@ -7,8 +7,17 @@ nav.querySelectorAll('a').forEach(link => {
   link.addEventListener('click', () => nav.classList.remove('is-open'));
 });
 
-document.getElementById('btnHacerPedido').href = buildWhatsAppLink(MENSAJE_HACER_PEDIDO);
-document.getElementById('whatsappFloat').href = buildWhatsAppLink(MENSAJE_HACER_PEDIDO);
+function captureEvent(event, properties) {
+  window.posthog?.capture(event, properties);
+}
+
+const btnHacerPedido = document.getElementById('btnHacerPedido');
+btnHacerPedido.href = buildWhatsAppLink(MENSAJE_HACER_PEDIDO);
+btnHacerPedido.addEventListener('click', () => captureEvent('whatsapp_inquiry_started', { source: 'header_order' }));
+
+const whatsappFloat = document.getElementById('whatsappFloat');
+whatsappFloat.href = buildWhatsAppLink(MENSAJE_HACER_PEDIDO);
+whatsappFloat.addEventListener('click', () => captureEvent('whatsapp_inquiry_started', { source: 'floating_button' }));
 
 function renderMigas(producto) {
   document.getElementById('migas').innerHTML = `
@@ -158,7 +167,7 @@ function renderDetalle(producto) {
         </div>
 
         <div class="detalle__acciones">
-          <a href="${buildWhatsAppLink(mensaje)}" target="_blank" rel="noopener" class="btn btn--whatsapp">${iconoWhatsapp()}Consultar este diseño</a>
+          <a href="${buildWhatsAppLink(mensaje)}" target="_blank" rel="noopener" class="btn btn--whatsapp" id="btnConsultaProducto">${iconoWhatsapp()}Consultar este diseño</a>
           <a href="index.html#catalogo" class="btn btn--ghost">Volver al catálogo</a>
         </div>
       </div>
@@ -174,11 +183,23 @@ function renderDetalle(producto) {
   });
 
   document.getElementById('imgPrincipal').addEventListener('click', () => {
-    abrirLightbox(document.getElementById('imgPrincipal').src, producto.name);
+    abrirLightbox(document.getElementById('imgPrincipal').src, producto.name, producto);
   });
 
   document.getElementById('btnGuiaTallas').addEventListener('click', () => {
+    captureEvent('product_size_guide_opened', {
+      product_slug: producto.slug,
+      product_category: producto.category,
+    });
     abrirGuiaTallas(producto);
+  });
+
+  document.getElementById('btnConsultaProducto').addEventListener('click', () => {
+    captureEvent('whatsapp_inquiry_started', {
+      source: 'product_detail',
+      product_slug: producto.slug,
+      product_category: producto.category,
+    });
   });
 
   renderMigas(producto);
@@ -251,7 +272,11 @@ modalTallas.addEventListener('click', (e) => {
 const lightbox = document.getElementById('lightbox');
 const lightboxImg = document.getElementById('lightboxImg');
 
-function abrirLightbox(src, alt) {
+function abrirLightbox(src, alt, producto) {
+  captureEvent('product_image_expanded', {
+    product_slug: producto.slug,
+    product_category: producto.category,
+  });
   lightboxImg.src = src;
   lightboxImg.alt = alt;
   lightbox.classList.remove('is-oculto');

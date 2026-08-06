@@ -11,6 +11,7 @@ También registra el tipo MIME de .webp, que Python no trae por defecto y hacía
 que las imágenes se descargaran en vez de mostrarse.
 """
 
+import json
 import os
 from http.server import SimpleHTTPRequestHandler, ThreadingHTTPServer
 
@@ -22,6 +23,22 @@ class Handler(SimpleHTTPRequestHandler):
         **SimpleHTTPRequestHandler.extensions_map,
         ".webp": "image/webp",
     }
+
+    def do_GET(self):
+        if self.path.split("?", 1)[0] == "/posthog-config.js":
+            config = {
+                "projectToken": os.environ.get("POSTHOG_PROJECT_TOKEN"),
+                "host": os.environ.get("POSTHOG_HOST"),
+            }
+            body = f"window.POSTHOG_CONFIG = {json.dumps(config)};".encode()
+            self.send_response(200)
+            self.send_header("Content-Type", "application/javascript; charset=utf-8")
+            self.send_header("Content-Length", str(len(body)))
+            self.end_headers()
+            self.wfile.write(body)
+            return
+
+        super().do_GET()
 
     def end_headers(self):
         # Sin caché: en desarrollo siempre queremos ver el último cambio.
