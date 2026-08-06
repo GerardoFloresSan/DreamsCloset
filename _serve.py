@@ -25,7 +25,7 @@ class Handler(SimpleHTTPRequestHandler):
     }
 
     def do_GET(self):
-        if self.path.split("?", 1)[0] == "/posthog-config.js":
+        if self.path.split("?", 1)[0] in ("/posthog-config", "/posthog-config.js"):
             config = {
                 "projectToken": os.environ.get("POSTHOG_PROJECT_TOKEN"),
                 "host": os.environ.get("POSTHOG_HOST"),

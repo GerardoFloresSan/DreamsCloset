@@ -69,7 +69,7 @@ POSTHOG_HOST=https://us.i.posthog.com
 
 5. Publicar la web nuevamente.
 
-La web carga `/posthog-config.js`, que Cloudflare genera desde
+La web carga `/posthog-config`, que Cloudflare genera desde
 `functions/posthog-config.js`. Asi el token no queda escrito dentro de
 `js/config.js`.
 
