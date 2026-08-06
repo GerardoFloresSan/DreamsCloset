@@ -83,7 +83,7 @@ y aprovecha el repositorio que ya existe.
    Drive  ──►  GitHub Action  ──►  genera productos.js  ──►  commit
                                                                │
                                                                ▼
-                                                    Netlify redespliega solo
+                                              Cloudflare Pages publica solo
                                                                │
                                                                ▼
                                                        Web actualizada

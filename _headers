@@ -1,0 +1,34 @@
+# Cabeceras para Cloudflare Pages.
+# Cloudflare lee este archivo al publicar; no hace falta configurar nada en el panel.
+# Formato: una ruta, y debajo las cabeceras indentadas con dos espacios.
+
+# --- Seguridad, en todo el sitio ---
+/*
+  X-Content-Type-Options: nosniff
+  Referrer-Policy: strict-origin-when-cross-origin
+  X-Frame-Options: SAMEORIGIN
+  Permissions-Policy: geolocation=(), microphone=(), camera=()
+
+# --- Imágenes ---
+# Los nombres de archivo no cambian y el contenido tampoco: se pueden guardar
+# un año. Si una foto se reemplaza, se sube con otro nombre desde el script
+# de importación.
+/assets/*
+  Cache-Control: public, max-age=31536000, immutable
+
+# --- CSS y JS ---
+# Llevan ?v=N en el HTML, así que al publicar una versión nueva el navegador
+# pide una URL distinta. Un día de caché alcanza para el visitante que vuelve
+# y hace que cualquier error se corrija solo al día siguiente.
+/css/*
+  Cache-Control: public, max-age=86400
+/js/*
+  Cache-Control: public, max-age=86400
+
+# --- HTML ---
+# Siempre se revalida: es el archivo que dice qué versión de CSS y JS cargar,
+# así que tiene que estar al día para que el resto funcione.
+/
+  Cache-Control: public, max-age=0, must-revalidate
+/*.html
+  Cache-Control: public, max-age=0, must-revalidate
