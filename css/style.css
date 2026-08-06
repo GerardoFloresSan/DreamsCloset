@@ -169,6 +169,23 @@ h1, h2, h3 { font-family: var(--font-display); font-weight: 600; letter-spacing:
 .nav a.is-actual { color: var(--color-gold-light); }
 .nav a:focus-visible { outline: 2px solid var(--color-gold); outline-offset: 4px; border-radius: 2px; }
 
+.legal-nav {
+  display: flex;
+  gap: 22px;
+  margin: 0 auto;
+}
+.legal-nav a {
+  font-weight: 500;
+  font-size: 0.82rem;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  color: var(--color-text-inverse-muted);
+}
+.legal-nav a:hover,
+.legal-nav a:focus-visible {
+  color: var(--color-gold-light);
+}
+
 .nav-toggle {
   display: none;
   flex-direction: column;
@@ -1018,6 +1035,35 @@ h1, h2, h3 { font-family: var(--font-display); font-weight: 600; letter-spacing:
 
 @media (max-width: 860px) {
   .detalle { grid-template-columns: 1fr; gap: 32px; }
+}
+
+/* ---------- Pagina legal ---------- */
+.legal-page {
+  padding: 76px 0 96px;
+}
+.legal-page__inner {
+  max-width: 760px;
+}
+.legal-page h1 {
+  font-family: var(--font-display);
+  text-transform: uppercase;
+  font-size: clamp(2rem, 4vw, 3rem);
+  line-height: 1.1;
+  margin-bottom: 22px;
+}
+.legal-page h2 {
+  font-family: var(--font-display);
+  text-transform: uppercase;
+  font-size: 1rem;
+  color: var(--color-gold);
+  margin: 32px 0 8px;
+}
+.legal-page p {
+  color: var(--color-text-muted);
+  margin-bottom: 14px;
+}
+.legal-page .btn {
+  margin-top: 22px;
 }
 
 /* ---------- Footer ---------- */

@@ -1,0 +1,72 @@
+# Dashboard unico de analitica
+
+La web registra eventos silenciosos sin agregar pasos al cliente. El cliente toca
+WhatsApp y se abre WhatsApp directo.
+
+## Que eventos se envian
+
+- `page_view`: visita de pagina.
+- `product_view`: vista de una ficha de producto.
+- `whatsapp_click`: click en un boton de WhatsApp.
+- `catalog_search`: busquedas dentro del catalogo.
+- `social_click`: click hacia Instagram o Facebook.
+
+Cada `whatsapp_click` incluye:
+
+- `whatsapp_code`: codigo de consulta que tambien viaja en el mensaje.
+- `product_name`
+- `product_code`
+- `category`
+- `button_text`
+- `path`
+- `url`
+- `title`
+
+## Codigo de WhatsApp
+
+Cada mensaje de WhatsApp agrega una linea asi:
+
+```text
+*Consulta:* DCW-20260806-0001-A7
+```
+
+Formato:
+
+- `DCW`: Dream's Closet Web.
+- `20260806`: fecha del click.
+- `0001`: correlativo del navegador para ese dia.
+- `A7`: sufijo corto para evitar choques entre visitantes.
+
+Sin un servidor propio no hay correlativo global perfecto para todos los
+visitantes. Este formato mantiene los codigos ordenables y faciles de ubicar en
+el dashboard.
+
+## Activar PostHog
+
+1. Crear un proyecto en PostHog.
+2. Copiar la `Project API Key`.
+3. Pegarla en `js/config.js`:
+
+```javascript
+posthogProjectKey: 'phc_xxxxxxxxxxxxxxxxx',
+```
+
+4. Publicar la web.
+
+## Dashboard recomendado
+
+Crear un dashboard con estos bloques:
+
+- Visitas por dia: evento `page_view`.
+- Productos mas vistos: evento `product_view`, breakdown por `product_name`.
+- Clicks a WhatsApp: evento `whatsapp_click`.
+- Productos con mas consultas: `whatsapp_click`, breakdown por `product_name`.
+- Conversion simple: funnel `page_view` -> `product_view` -> `whatsapp_click`.
+- Busquedas frecuentes: evento `catalog_search`, breakdown por `query`.
+- Canales sociales: evento `social_click`, breakdown por `network`.
+
+## Como usar el codigo
+
+Cuando llegue un WhatsApp, buscar el codigo `DCW-...` en PostHog. Ahi se ve que
+producto estaba viendo, desde que pagina llego y que accion hizo antes de
+escribir.

@@ -8,6 +8,10 @@ const SITE_CONFIG = {
   facebookUrl: 'https://www.facebook.com/dreamsclosets',
   instagramUrl: 'https://www.instagram.com/dreams.closet.shop',
   email: 'dreamsclosetcomercial@gmail.com',
+  analyticsProvider: 'posthog',
+  posthogProjectKey: 'phc_uQK6ueqeEFfwoSiSazQPtRVLVmnYqVn8nm9bHHYaiRv9',
+  posthogApiHost: 'https://us.i.posthog.com',
+  privacyPolicyUrl: 'privacidad.html',
 };
 
 /**
