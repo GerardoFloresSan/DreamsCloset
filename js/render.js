@@ -11,6 +11,46 @@ const ETIQUETA_TAG = {
   varios: 'Personalizable',
 };
 
+function escapeHTML(valor) {
+  return String(valor ?? '').replace(/[&<>"']/g, (char) => ({
+    '&': '&amp;',
+    '<': '&lt;',
+    '>': '&gt;',
+    '"': '&quot;',
+    "'": '&#39;',
+  }[char]));
+}
+
+function escapeAttribute(valor) {
+  return escapeHTML(valor).replace(/`/g, '&#96;');
+}
+
+function safeRelativeAssetPath(ruta) {
+  const texto = String(ruta ?? '');
+  return /^(?:assets|css|js)\/[A-Za-z0-9._~/%() -]+$/.test(texto) && !texto.includes('..')
+    ? texto
+    : '';
+}
+
+function safeSlug(slug) {
+  const texto = String(slug ?? '');
+  return /^[a-z0-9]+(?:-[a-z0-9]+)*$/.test(texto) ? texto : '';
+}
+
+function safeHexColor(hex) {
+  const texto = String(hex ?? '');
+  return /^#[0-9A-Fa-f]{6}$/.test(texto) ? texto : '#CCCCCC';
+}
+
+function safeClassToken(valor) {
+  return String(valor ?? '')
+    .normalize('NFD')
+    .replace(/[\u0300-\u036f]/g, '')
+    .toLowerCase()
+    .replace(/[^a-z0-9]+/g, '-')
+    .replace(/^-|-$/g, '');
+}
+
 document.addEventListener('click', (event) => {
   const detailLink = event.target.closest('.js-product-detail');
   if (detailLink) {
@@ -47,29 +87,35 @@ function tarjetaHTML(producto) {
   const categoriaLabel = CATEGORIAS.find((c) => c.slug === producto.category)?.label || '';
   const url = urlProducto(producto);
   const mensaje = mensajeConsultaProducto(producto, url);
+  const imagen = safeRelativeAssetPath(producto.images[0]);
+  const imagenMiniatura = safeRelativeAssetPath(imagenCard(producto.images[0]));
+  const slug = safeSlug(producto.slug);
+  const categoria = safeSlug(producto.category);
+  const ancho = Number(producto.imageWidth) || 0;
+  const alto = Number(producto.imageHeight) || 0;
 
   return `
-    <article class="card-producto reveal is-visible" data-categoria="${producto.category}">
+    <article class="card-producto reveal is-visible" data-categoria="${escapeAttribute(categoria)}">
       <div class="card-producto__img">
-        <span class="tag-personalizable">${ETIQUETA_TAG[producto.category] || 'Personalizable'}</span>
+        <span class="tag-personalizable">${escapeHTML(ETIQUETA_TAG[producto.category] || 'Personalizable')}</span>
         <img
-          src="${imagenCard(producto.images[0])}"
-          srcset="${imagenCard(producto.images[0])} 700w, ${producto.images[0]} ${producto.imageWidth}w"
+          src="${escapeAttribute(imagenMiniatura)}"
+          srcset="${escapeAttribute(imagenMiniatura)} 700w, ${escapeAttribute(imagen)} ${ancho}w"
           sizes="(max-width: 620px) 100vw, (max-width: 960px) 50vw, 33vw"
-          alt="${producto.name}" loading="lazy"
-          width="${producto.imageWidth}" height="${producto.imageHeight}">
+          alt="${escapeAttribute(producto.name)}" loading="lazy"
+          width="${ancho}" height="${alto}">
       </div>
       <div class="card-producto__body">
         <div class="card-producto__meta">
-          <span class="card-producto__linea">${categoriaLabel}</span>
-          <span class="card-producto__codigo">${producto.code}</span>
+          <span class="card-producto__linea">${escapeHTML(categoriaLabel)}</span>
+          <span class="card-producto__codigo">${escapeHTML(producto.code)}</span>
         </div>
-        <h3>${producto.name}</h3>
-        <p>${producto.shortDescription}</p>
-        <p class="card-producto__detalle">Estampado DTF · <strong>${etiquetaPrecio(producto)}</strong></p>
+        <h3>${escapeHTML(producto.name)}</h3>
+        <p>${escapeHTML(producto.shortDescription)}</p>
+        <p class="card-producto__detalle">Estampado DTF · <strong>${escapeHTML(etiquetaPrecio(producto))}</strong></p>
         <div class="card-producto__acciones">
-          <a href="producto.html?slug=${producto.slug}" class="btn btn--outline btn--sm js-product-detail" data-product-slug="${producto.slug}" data-product-category="${producto.category}" data-source="catalog_card">Ver detalles</a>
-          <a href="${buildWhatsAppLink(mensaje)}" target="_blank" rel="noopener" class="btn btn--whatsapp btn--sm js-product-inquiry" data-product-slug="${producto.slug}" data-product-category="${producto.category}" data-source="catalog_card">${iconoWhatsapp()}Consultar este diseño</a>
+          <a href="producto.html?slug=${escapeAttribute(slug)}" class="btn btn--outline btn--sm js-product-detail" data-product-slug="${escapeAttribute(slug)}" data-product-category="${escapeAttribute(categoria)}" data-source="catalog_card">Ver detalles</a>
+          <a href="${escapeAttribute(buildWhatsAppLink(mensaje))}" target="_blank" rel="noopener" class="btn btn--whatsapp btn--sm js-product-inquiry" data-product-slug="${escapeAttribute(slug)}" data-product-category="${escapeAttribute(categoria)}" data-source="catalog_card">${iconoWhatsapp()}Consultar este diseño</a>
         </div>
       </div>
     </article>

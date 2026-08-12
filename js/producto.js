@@ -23,7 +23,7 @@ function renderMigas(producto) {
   document.getElementById('migas').innerHTML = `
     <a href="index.html#inicio">Inicio</a> /
     <a href="index.html#catalogo">Catálogo</a> /
-    <span aria-current="page">${producto.name}</span>
+    <span aria-current="page">${escapeHTML(producto.name)}</span>
   `;
 }
 
@@ -65,16 +65,23 @@ function actualizarMeta(producto, url) {
 }
 
 function renderGaleria(producto) {
+  const imagenPrincipal = safeRelativeAssetPath(producto.images[0]);
+  const nombre = escapeAttribute(producto.name);
+  const ancho = Number(producto.imageWidth) || 0;
+  const alto = Number(producto.imageHeight) || 0;
   const miniaturas = producto.images.length > 1
     ? `<div class="detalle__miniaturas">
-        ${producto.images.map((src, i) => `<button type="button" class="detalle__miniatura${i === 0 ? ' is-activa' : ''}" data-src="${src}"><img src="${src}" alt="${producto.name} vista ${i + 1}"></button>`).join('')}
+        ${producto.images.map((src, i) => {
+          const ruta = safeRelativeAssetPath(src);
+          return `<button type="button" class="detalle__miniatura${i === 0 ? ' is-activa' : ''}" data-src="${escapeAttribute(ruta)}"><img src="${escapeAttribute(ruta)}" alt="${nombre} vista ${i + 1}"></button>`;
+        }).join('')}
       </div>`
     : '';
 
   return `
     <div class="detalle__galeria">
       <div class="detalle__img-principal">
-        <img src="${producto.images[0]}" alt="${producto.name}" id="imgPrincipal" width="${producto.imageWidth}" height="${producto.imageHeight}">
+        <img src="${escapeAttribute(imagenPrincipal)}" alt="${nombre}" id="imgPrincipal" width="${ancho}" height="${alto}">
       </div>
       ${miniaturas}
     </div>
@@ -91,14 +98,14 @@ function renderTablaPrecios(producto) {
     .map(
       (g) => `
       <li>
-        <span class="detalle__precio-tallas">Talla${g.tallas.length > 1 ? 's' : ''} ${g.tallas.join(', ')}</span>
-        <span class="detalle__precio-monto">S/ ${g.precio}</span>
+        <span class="detalle__precio-tallas">Talla${g.tallas.length > 1 ? 's' : ''} ${escapeHTML(g.tallas.join(', '))}</span>
+        <span class="detalle__precio-monto">S/ ${escapeHTML(g.precio)}</span>
       </li>`
     )
     .join('');
 
   const nota = producto.notaPrecio
-    ? `<p class="detalle__precio-nota">${producto.notaPrecio}</p>`
+    ? `<p class="detalle__precio-nota">${escapeHTML(producto.notaPrecio)}</p>`
     : '';
 
   return `<ul class="detalle__precios">${filas}</ul>${nota}`;
@@ -114,8 +121,8 @@ function renderColores(producto) {
     .map(
       (c) => `
       <li class="color-chip">
-        <span class="color-chip__muestra" style="background:${c.hex}"></span>
-        <span class="color-chip__nombre">${c.nombre}</span>
+        <span class="color-chip__muestra color-chip__muestra--${escapeAttribute(safeClassToken(c.nombre))}"></span>
+        <span class="color-chip__nombre">${escapeHTML(c.nombre)}</span>
       </li>`
     )
     .join('');
@@ -135,15 +142,15 @@ function renderDetalle(producto) {
     <div class="container detalle">
       ${renderGaleria(producto)}
       <div class="detalle__info">
-        <span class="eyebrow">${categoriaLabel}</span>
-        <h1>${producto.name}</h1>
-        <p class="detalle__codigo">Código: ${producto.code}</p>
-        <p class="detalle__desc">${producto.shortDescription}</p>
+        <span class="eyebrow">${escapeHTML(categoriaLabel)}</span>
+        <h1>${escapeHTML(producto.name)}</h1>
+        <p class="detalle__codigo">Código: ${escapeHTML(producto.code)}</p>
+        <p class="detalle__desc">${escapeHTML(producto.shortDescription)}</p>
 
         <ul class="detalle__specs">
-          <li><strong>Tipo de prenda</strong><span>${tipoPrendaProducto(producto)}</span></li>
+          <li><strong>Tipo de prenda</strong><span>${escapeHTML(tipoPrendaProducto(producto))}</span></li>
           <li><strong>Personalización</strong><span>Estampado DTF</span></li>
-          <li><strong>Material</strong><span>${materialProducto(producto)}</span></li>
+          <li><strong>Material</strong><span>${escapeHTML(materialProducto(producto))}</span></li>
         </ul>
 
         <div class="detalle__bloque">
@@ -152,7 +159,7 @@ function renderDetalle(producto) {
             <button type="button" class="enlace-boton" id="btnGuiaTallas">Ver guía de tallas</button>
           </div>
           <ul class="tallas-lista">
-            ${producto.sizes.map((t) => `<li class="talla-chip">${t}</li>`).join('')}
+            ${producto.sizes.map((t) => `<li class="talla-chip">${escapeHTML(t)}</li>`).join('')}
           </ul>
         </div>
 
@@ -167,7 +174,7 @@ function renderDetalle(producto) {
         </div>
 
         <div class="detalle__acciones">
-          <a href="${buildWhatsAppLink(mensaje)}" target="_blank" rel="noopener" class="btn btn--whatsapp" id="btnConsultaProducto">${iconoWhatsapp()}Consultar este diseño</a>
+          <a href="${escapeAttribute(buildWhatsAppLink(mensaje))}" target="_blank" rel="noopener" class="btn btn--whatsapp" id="btnConsultaProducto">${iconoWhatsapp()}Consultar este diseño</a>
           <a href="index.html#catalogo" class="btn btn--ghost">Volver al catálogo</a>
         </div>
       </div>
@@ -229,14 +236,14 @@ function tablaTallasHTML(producto) {
     return `
       <p class="modal__aviso">Todavía no publicamos la tabla de medidas de esta prenda.</p>
       <p class="modal__texto">Escribinos y te decimos exactamente qué talla te corresponde.</p>
-      <a href="${buildWhatsAppLink(mensaje)}" target="_blank" rel="noopener" class="btn btn--whatsapp">${iconoWhatsapp()}Consultar mi talla</a>
+      <a href="${escapeAttribute(buildWhatsAppLink(mensaje))}" target="_blank" rel="noopener" class="btn btn--whatsapp">${iconoWhatsapp()}Consultar mi talla</a>
     `;
   }
 
   const filas = producto.sizes
     .filter((t) => medidas[t])
     .map(
-      (t) => `<tr><th scope="row">${t}</th><td>${medidas[t].pecho} cm</td><td>${medidas[t].largo} cm</td></tr>`
+      (t) => `<tr><th scope="row">${escapeHTML(t)}</th><td>${escapeHTML(medidas[t].pecho)} cm</td><td>${escapeHTML(medidas[t].largo)} cm</td></tr>`
     )
     .join('');
 
