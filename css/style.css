@@ -1078,6 +1078,59 @@ h1, h2, h3 { font-family: var(--font-display); font-weight: 600; letter-spacing:
 .legal-page .btn {
   margin-top: 22px;
 }
+.legal-page__cierre {
+  margin-top: 36px;
+  padding-top: 22px;
+  border-top: 1px solid var(--color-cream-soft);
+}
+
+/* ---------- Acordeón de preguntas frecuentes ----------
+   Usa <details>/<summary> nativos: sin JavaScript, accesible por teclado
+   y compatible con la política de seguridad del sitio. */
+.faq {
+  border-bottom: 1px solid var(--color-cream-soft);
+}
+.faq summary {
+  padding: 18px 34px 18px 0;
+  cursor: pointer;
+  position: relative;
+  font-weight: 600;
+  color: var(--color-text);
+  list-style: none;
+}
+.faq summary::-webkit-details-marker { display: none; }
+
+/* Flecha que gira al abrir. */
+.faq summary::after {
+  content: '';
+  position: absolute;
+  right: 6px;
+  top: 50%;
+  width: 9px;
+  height: 9px;
+  border-right: 2px solid var(--color-gold);
+  border-bottom: 2px solid var(--color-gold);
+  transform: translateY(-70%) rotate(45deg);
+  transition: transform 0.2s ease;
+}
+.faq[open] summary::after { transform: translateY(-30%) rotate(-135deg); }
+
+.faq summary:hover { color: var(--color-gold); }
+.faq summary:focus-visible {
+  outline: 2px solid var(--color-gold);
+  outline-offset: 3px;
+  border-radius: 2px;
+}
+
+.faq__respuesta { padding: 0 0 20px; }
+.faq__respuesta p:last-child { margin-bottom: 0; }
+.faq__respuesta a { color: var(--color-text); text-decoration: underline; text-underline-offset: 3px; }
+.faq__respuesta a:hover { color: var(--color-gold); }
+.faq__respuesta .tabla-tallas { margin: 6px 0 16px; }
+
+@media (prefers-reduced-motion: reduce) {
+  .faq summary::after { transition: none; }
+}
 
 /* ---------- Footer ---------- */
 .footer { background: var(--color-ink); color: var(--color-text-inverse-muted); padding: 64px 0 0; border-top: 1px solid rgba(255,255,255,0.08); }
